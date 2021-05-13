@@ -62,3 +62,4 @@ lines(cr_covid19$FECHA, cr_covid19$RECUPERADOS, col="green")
 # Casos fallecidos
 lines(cr_covid19$FECHA, cr_covid19$fallecidos, col="violet")
 ```
+

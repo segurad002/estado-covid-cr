@@ -1,0 +1,64 @@
+---
+title: "Estado del COVID-19 en Costa Rica"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Los siguientes gráficos han sido generados a partir de los [datos publicados por el Ministerio de Salud](http://geovision.uned.ac.cr/oges/).
+
+```{r message=FALSE}
+# Carga de graphics
+library(graphics)
+
+# Carga de ggplot2
+library(ggplot2)
+
+# Carga de plotly
+library(plotly)
+
+# Carga de dplyr
+library(dplyr)
+
+# Carga de datos desde un archivo CSV
+cr_covid19 <- 
+  read.csv(
+    file='https://raw.githubusercontent.com/gf0604-procesamientodatosgeograficos/2021i-datos/main/ministerio-salud/covid/ultimafecha_CSV_GENERAL.csv', 
+    sep = ","
+  )
+
+# Conversión de la columna de fecha a la clase Date
+cr_covid19$FECHA <- as.Date(cr_covid19$FECHA, "%d/%m/%Y")
+```
+
+
+## Evolución de los casos a través del tiempo
+
+### plot()
+
+```{r}
+
+
+# Gráfico de línea de casos positivos
+plot(
+  cr_covid19$FECHA, 
+  cr_covid19$positivos,
+  main='Evolución en el tiempo de los casos de COVID-19 en CR',
+  xlab='Fecha',
+  ylab='Casos',
+  type="l",
+  col="blue"
+)
+axis(1, cr_covid19$FECHA, format(cr_covid19$FECHA, "%d %b"), tick = FALSE)
+
+# Casos activos
+lines(cr_covid19$FECHA, cr_covid19$activos, col="red")
+
+# Casos recuperados
+lines(cr_covid19$FECHA, cr_covid19$RECUPERADOS, col="green")
+
+# Casos fallecidos
+lines(cr_covid19$FECHA, cr_covid19$fallecidos, col="violet")
+```
